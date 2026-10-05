@@ -1,0 +1,6 @@
+{
+  "name": "NextGen Laptops",
+  "description": "Power Uncompromised. Premium e-commerce marketplace for high-performance gaming, AI/ML workstation, developer, and enterprise laptops.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
