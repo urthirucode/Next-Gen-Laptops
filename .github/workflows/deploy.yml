@@ -33,18 +33,34 @@ jobs:
       - name: Configure GitHub Pages
         id: pages
         uses: actions/configure-pages@v5
+        continue-on-error: true
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install --legacy-peer-deps || (
+            node -e '
+              const fs = require("fs");
+              const pkg = JSON.parse(fs.readFileSync("package.json", "utf8"));
+              for (const section of ["dependencies", "devDependencies"]) {
+                if (!pkg[section]) continue;
+                for (const key of Object.keys(pkg[section])) {
+                  pkg[section][key] = "latest";
+                }
+              }
+              fs.writeFileSync("package.json", JSON.stringify(pkg, null, 2));
+            ' && npm install --legacy-peer-deps
+          )
 
       - name: Build production bundle with Vite
         env:
-          # Automatically sets the base path to /<repo-name>/ for project pages, or / for custom domains
-          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          # Uses GitHub Pages configured base_path if available, otherwise defaults to /<repo-name>/
+          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path != '' && format('{0}/', steps.pages.outputs.base_path) || format('/{0}/', github.event.repository.name) }}
         run: npm run build
 
-      - name: Add SPA fallback (404.html) for React Router
-        run: cp dist/index.html dist/404.html
+      - name: Add SPA fallback (404.html) and .nojekyll for GitHub Pages
+        run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

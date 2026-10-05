@@ -1,6 +1,7 @@
 import { Product } from '../types/product';
+import heroFlagshipImg from '../assets/images/hero_flagship_laptop_1791180808293.jpg';
 
-export const HERO_IMAGE_PATH = '/src/assets/images/hero_flagship_laptop_1791180808293.jpg';
+export const HERO_IMAGE_PATH = heroFlagshipImg;
 
 export const products: Product[] = [
   {
