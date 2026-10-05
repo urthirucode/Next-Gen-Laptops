@@ -28,11 +28,19 @@ const RouteFallback: React.FC = () => (
   </PageContainer>
 );
 
+function getRouterBasename(): string {
+  if (typeof window !== 'undefined' && window.location.hostname.endsWith('github.io')) {
+    const firstSegment = window.location.pathname.split('/').filter(Boolean)[0];
+    return firstSegment ? `/${firstSegment}` : '/';
+  }
+  return '/';
+}
+
 export default function App() {
   return (
     <CartProvider>
       <CompareProvider>
-        <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <BrowserRouter basename={getRouterBasename()}>
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route element={<MainLayout />}>

@@ -1,9 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Layers } from 'lucide-react';
-import { HERO_IMAGE_PATH } from '../../data/products';
+import { products } from '../../data/products';
+import { LaptopVisual } from '../ui/LaptopVisual';
 
 export const Hero: React.FC = () => {
+  const flagshipProduct = products[0];
+
   return (
     <section className="relative overflow-hidden border-b border-[#2A2A2A] bg-[#121212] bg-tech-grid">
       {/* Restrained radial cyan spotlight */}
@@ -79,13 +82,8 @@ export const Hero: React.FC = () => {
           <div className="lg:col-span-5">
             <div className="relative rounded-lg bg-[#1C1C1C] border border-[#2A2A2A] overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.85)] group">
               <div className="aspect-[16/10] bg-[#141416] relative overflow-hidden">
-                <img
-                  src={HERO_IMAGE_PATH}
-                  alt="ROG Strix SCAR 16 Flagship Laptop on dark obsidian surface with subtle cyan rim lighting"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-transparent to-transparent" />
+                <LaptopVisual product={flagshipProduct} angle="front" preferPhoto />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1C1C1C] via-transparent to-transparent pointer-events-none" />
               </div>
 
               <div className="p-6 pt-3 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
